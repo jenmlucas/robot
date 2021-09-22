@@ -10,21 +10,32 @@ var fight = function (enemy) {
         // ask player if they'd like to fight or run
         var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
 
-        // if player picks "skip" confirm and then stop the loop
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            // confirm player wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        // conditional recursive function call
+       
+        while(playerInfo.health > 0 && enemy.health > 0){
+                 if (fightOrSkip()) {
+                     break;
+                 }
+                 var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+        };
+        
 
-            // if yes (true), leave fight
-            if (confirmSkip) {
-                window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-                // subtract money from playerMoney for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money)
-                break;
+            // if player picks "skip" confirm and then stop the loop
+            promptFight = promptFight.toLowerCase ();
+            if (promptFight === "skip" || promptFight === "SKIP") {
+                // confirm player wants to skip
+                var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+                // if yes (true), leave fight
+                if (confirmSkip) {
+                    window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
+                    // subtract money from playerMoney for skipping
+                    playerInfo.money = Math.max(0, playerInfo.money - 10);
+                    shop();
+                    return true;
+                }
             }
-        }
-
+        
         // remove enemy's health by subtracting the amount set in the playerAttack variable
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
         enemy.health = Math.max(0, enemy.health - damage);
@@ -160,7 +171,7 @@ while (name === "" || name === null) {
 
 
 var playerInfo = {
-    name: getPlayerName (),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
